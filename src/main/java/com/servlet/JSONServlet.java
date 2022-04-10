@@ -5,25 +5,22 @@ import java.io.PrintWriter;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/api")
-public class MyServlet extends HttpServlet {
+@WebServlet("/json")
+public class JSONServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    resp.setContentType("application/json");
 
     PrintWriter output = resp.getWriter();
 
     try {
 
-      output.println(req.getLocalAddr());
-      output.println(req.getLocalName());
-      output.println(req.getLocalPort());
-      output.println("Cookies count: " + req.getCookies().length);
+      output.println("{\"name\":\"John\",\"age\":30,\"city\":\"New York\"}");
 
     } catch (Exception e) {
       System.out.println(e);
@@ -32,12 +29,4 @@ public class MyServlet extends HttpServlet {
     }
   }
 
-  @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    String userName = req.getParameter("userName");
-
-    Cookie cookie = new Cookie("Codeminer42", userName);
-
-    resp.addCookie(cookie);
-  }
 }
